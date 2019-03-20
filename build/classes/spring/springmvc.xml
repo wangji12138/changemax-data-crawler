@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd">
+
+
+	<!-- 对于注解的handler配置可以单个配置 在实际开发中，建议使用组件扫描 -->
+	<!-- <bean id="itemsController3" class="cn.changemax.ssm.controller.ItemsController3"></bean> -->
+	<!-- 可以使用扫描controller、service、... 这里让扫描controller，指定controller的包路径 -->
+	<context:component-scan
+		base-package="cn.changemax.mas.controller"></context:component-scan>
+
+	<!-- mvc：annotation-driven代替上边注解映射器和注解适配器的配置 mvc:annotation-driven默认加载很多的参数绑定方法，比如json转换解析器就默认加载了， 
+		如果使用mvc：annotation-driven不用配置上边的RequestMappingHandlerMapping和RequsetMappingHandleAdaper 
+		实际开发中使用：mvc:annotation-driven -->
+	<mvc:annotation-driven validator="validator">
+
+	</mvc:annotation-driven>
+
+
+
+
+
+	<!-- 视图解析器 -->
+	<!-- 解析jsp视图，默认使用jstl标签，classpath下得有jstl的jar包 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 配置jsp路径的前缀 -->
+		<property name="prefix" value="/views" />
+		<!-- 配置jsp路径的后缀 -->
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+
+
+
+	<!-- 校验器 -->
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<!-- hibernate校验器 -->
+		<property name="providerClass"
+			value="org.hibernate.validator.HibernateValidator" />
+		<!-- 指定校验使用的资源文件，在文件中配置校验错误信息，如果不指定则默认使用classpath下的ValidationMessages.properties -->
+		<property name="validationMessageSource" ref="messageSource" />
+	</bean>
+	<!-- 校验错误信息配置文件 -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<!-- 资源文件名 -->
+		<property name="basenames">
+			<list>
+				<value>classpath:CustomValidationMessages</value>
+			</list>
+		</property>
+		<!-- 资源文件编码格式 -->
+		<property name="fileEncodings" value="utf-8" />
+		<!-- 对资源文件内容缓存时间，单位秒 -->
+		<property name="cacheSeconds" value="120" />
+	</bean>
+
+	<!-- 全局异常处理器 只要实现HandlerExceptionResolver接口就是全局异常处理器 -->
+	<bean class="cn.changemax.mas.exception.CustomExceptionResolver"></bean>
+
+	<!-- 文件上传 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 设置上传文件的最大尺寸为5MB -->
+		<property name="maxUploadSize">
+			<value>5242880</value>
+		</property>
+	</bean>
+
+	<!-- 访问静态资源 -->
+	<mvc:resources mapping="/before/**"
+		location="/assets/before/" />
+	<mvc:resources mapping="/rear/**"
+		location="/assets/rear/" />
+
+	<mvc:resources location="/views/" mapping="/**" />
+
+	<mvc:resources location="/images/" mapping="/images/*"
+		cache-period="360000" />
+
+
+	<!-- 拦截器 -->
+	<mvc:interceptors>
+		<!-- 多个拦截器，顺序执行 -->
+		<!-- 用户登录认证拦截器 -->
+		<mvc:interceptor>
+			<!-- /**表示所有url路径包括子路径 -->
+			<mvc:mapping path="/**/**" />
+			<bean class="cn.changemax.mas.interceptor.UserInterceptor"></bean>
+		</mvc:interceptor>
+
+		<!-- 管理员登录认证拦截器 -->
+		<mvc:interceptor>
+			<!-- /**表示所有url路径包括子路径 -->
+			<mvc:mapping path="/admin/**" />
+			<!-- <mvc:exclude-mapping path="/**/fonts/*" /> <mvc:exclude-mapping path="/**/*.css" 
+				/> <mvc:exclude-mapping path="/**/*.js" /> <mvc:exclude-mapping path="/**/*.png" 
+				/> <mvc:exclude-mapping path="/**/*.gif" /> <mvc:exclude-mapping path="/**/*.jpg" 
+				/> <mvc:exclude-mapping path="/**/*.jpeg" /> -->
+			<!-- <mvc:exclude-mapping path="/**/*login*" /> <mvc:exclude-mapping path="/**/*login*" 
+				/> <mvc:exclude-mapping path="/**/*doLogin*" /> -->
+			<bean class="cn.changemax.mas.interceptor.AdminInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+
+
+</beans>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd ">
+
+	<!-- service的配置 -->
+	<!-- 使用注解配置了 -->
+	<!-- <context:component-scan base-package="cn.changemax.mas" /> -->
+	<!--services 配置 -->
+	<bean id="adminService" class="cn.changemax.mas.service.impl.AdminServiceImpl" />
+	<bean id="answerService" class="cn.changemax.mas.service.impl.AnswerServiceImpl" />
+	<bean id="bdAlOpenTechnologyService" class="cn.changemax.mas.service.impl.BDAlOpenTechnologyServiceImpl" />
+	<bean id="bdzdQuestionAnswerService" class="cn.changemax.mas.service.impl.BdzdQaServiceImpl" />
+	<bean id="changeMaxService" class="cn.changemax.mas.service.impl.ChangeMaxServiceImpl" />
+	<bean id="conversationalAnalysisService" class="cn.changemax.mas.service.impl.ConversationalAnalysisServiceImpl" />
+	<bean id="diseaseService" class="cn.changemax.mas.service.impl.DiseaseServiceImpl" />	
+	<bean id="documentService" class="cn.changemax.mas.service.impl.DocumentServiceImpl" />	
+	<bean id="encyclopediaService" class="cn.changemax.mas.service.impl.EncyclopediaServiceImpl" />	
+	<bean id="medicalDatabaseService" class="cn.changemax.mas.service.impl.MedicalDatabaseServiceImpl" />
+	<bean id="medicalQaService" class="cn.changemax.mas.service.impl.MedicalQaSerivceImpl" />
+	<bean id="medicalVideoService" class="cn.changemax.mas.service.impl.MedicalVideoServiceImpl" />
+	<bean id="organService" class="cn.changemax.mas.service.impl.OrganServiceImpl" />
+	<bean id="partService" class="cn.changemax.mas.service.impl.PartServiceImpl" />
+	<bean id="qaAiService" class="cn.changemax.mas.service.impl.QaAiServiceImpl" />
+	<bean id="qaCategoryService" class="cn.changemax.mas.service.impl.QaCategoryServiceImpl" />
+	<bean id="qaRequestService" class="cn.changemax.mas.service.impl.QaRequestServiceImpl" />
+	<bean id="qaResponseService" class="cn.changemax.mas.service.impl.QaResponseServiceImpl" />
+	<bean id="questionService" class="cn.changemax.mas.service.impl.QuestionServiceImpl" />
+	<bean id="symptomService" class="cn.changemax.mas.service.impl.SymptomServiceImpl" />
+ 	<bean id="textService" class="cn.changemax.mas.service.impl.TextServiceImpl" />
+	<bean id="userService" class="cn.changemax.mas.service.impl.UserServiceImpl" />
+	
+	
+	<bean id="springContextHolder" class="cn.changemax.mas.utils.SpringContextHolder" />
+	
+ 	
+</beans>

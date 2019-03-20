@@ -1,0 +1,695 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.changemax.mas.mapper.DiseaseMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.changemax.mas.po.Disease">
+		<id column="disease_id" property="diseaseId" jdbcType="VARCHAR" />
+		<result column="disease_alias" property="diseaseAlias"
+			jdbcType="VARCHAR" />
+		<result column="disease_complication"
+			property="diseaseComplication" jdbcType="VARCHAR" />
+		<result column="disease_contagious"
+			property="diseaseContagious" jdbcType="VARCHAR" />
+		<result column="disease_cure_rate" property="diseaseCureRate"
+			jdbcType="VARCHAR" />
+		<result column="disease_image_url" property="diseaseImageUrl"
+			jdbcType="VARCHAR" />
+		<result column="disease_incidence_site"
+			property="diseaseIncidenceSite" jdbcType="VARCHAR" />
+		<result column="disease_medical_insurance"
+			property="diseaseMedicalInsurance" jdbcType="VARCHAR" />
+		<result column="disease_multiple_people"
+			property="diseaseMultiplePeople" jdbcType="VARCHAR" />
+		<result column="disease_name" property="diseaseName"
+			jdbcType="VARCHAR" />
+		<result column="disease_symptom_related"
+			property="diseaseSymptomRelated" jdbcType="VARCHAR" />
+		<result column="disease_trans" property="diseaseTrans"
+			jdbcType="VARCHAR" />
+		<result column="disease_treatment_costs"
+			property="diseaseTreatmentCosts" jdbcType="VARCHAR" />
+		<result column="disease_treatment_cycle"
+			property="diseaseTreatmentCycle" jdbcType="VARCHAR" />
+		<result column="disease_treatment_method"
+			property="diseaseTreatmentMethod" jdbcType="VARCHAR" />
+		<result column="disease_visit_department"
+			property="diseaseVisitDepartment" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs"
+		type="cn.changemax.mas.po.DiseaseWithBLOBs" extends="BaseResultMap">
+		<result column="disease_complication_intro"
+			property="diseaseComplicationIntro" jdbcType="LONGVARCHAR" />
+		<result column="disease_examination_guidance_intro"
+			property="diseaseExaminationGuidanceIntro" jdbcType="LONGVARCHAR" />
+		<result column="disease_intro" property="diseaseIntro"
+			jdbcType="LONGVARCHAR" />
+		<result column="disease_medical_treatment_guide_question"
+			property="diseaseMedicalTreatmentGuideQuestion"
+			jdbcType="LONGVARCHAR" />
+		<result column="disease_symptom_early"
+			property="diseaseSymptomEarly" jdbcType="LONGVARCHAR" />
+		<result column="disease_symptom_intro"
+			property="diseaseSymptomIntro" jdbcType="LONGVARCHAR" />
+		<result column="disease_symptom_late"
+			property="diseaseSymptomLate" jdbcType="LONGVARCHAR" />
+		<result column="disease_treatment_method_intro"
+			property="diseaseTreatmentMethodIntro" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		disease_id, disease_alias, disease_complication, disease_contagious,
+		disease_cure_rate,
+		disease_image_url, disease_incidence_site, disease_medical_insurance,
+		disease_multiple_people,
+		disease_name, disease_symptom_related, disease_trans, disease_treatment_costs,
+		disease_treatment_cycle,
+		disease_treatment_method, disease_visit_department
+	</sql>
+	<sql id="Blob_Column_List">
+		disease_complication_intro, disease_examination_guidance_intro, disease_intro,
+		disease_medical_treatment_guide_question,
+		disease_symptom_early, disease_symptom_intro, disease_symptom_late,
+		disease_treatment_method_intro
+	</sql>
+	<select id="selectByExampleWithBLOBs"
+		resultMap="ResultMapWithBLOBs"
+		parameterType="cn.changemax.mas.po.DiseaseExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from disease
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+
+		<if test="startRow != null and pageSize != null and pageSize != 0"> limit #{startRow},#{pageSize}</if>
+		
+	</select>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="cn.changemax.mas.po.DiseaseExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from disease
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+
+		<if test="startRow != null and pageSize != null and pageSize != 0"> limit #{startRow},#{pageSize}</if>
+
+	</select>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from disease
+		where disease_id = #{diseaseId,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from disease
+		where disease_id = #{diseaseId,jdbcType=VARCHAR}
+	</delete>
+	<delete id="deleteByExample"
+		parameterType="cn.changemax.mas.po.DiseaseExample">
+		delete from disease
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert"
+		parameterType="cn.changemax.mas.po.DiseaseWithBLOBs">
+		insert into disease (disease_id, disease_alias, disease_complication,
+		disease_contagious, disease_cure_rate, disease_image_url,
+		disease_incidence_site, disease_medical_insurance,
+		disease_multiple_people, disease_name, disease_symptom_related,
+		disease_trans, disease_treatment_costs, disease_treatment_cycle,
+		disease_treatment_method, disease_visit_department,
+		disease_complication_intro, disease_examination_guidance_intro,
+		disease_intro, disease_medical_treatment_guide_question,
+		disease_symptom_early, disease_symptom_intro,
+		disease_symptom_late, disease_treatment_method_intro
+		)
+		values (#{diseaseId,jdbcType=VARCHAR}, #{diseaseAlias,jdbcType=VARCHAR},
+		#{diseaseComplication,jdbcType=VARCHAR},
+		#{diseaseContagious,jdbcType=VARCHAR},
+		#{diseaseCureRate,jdbcType=VARCHAR},
+		#{diseaseImageUrl,jdbcType=VARCHAR},
+		#{diseaseIncidenceSite,jdbcType=VARCHAR},
+		#{diseaseMedicalInsurance,jdbcType=VARCHAR},
+		#{diseaseMultiplePeople,jdbcType=VARCHAR},
+		#{diseaseName,jdbcType=VARCHAR},
+		#{diseaseSymptomRelated,jdbcType=VARCHAR},
+		#{diseaseTrans,jdbcType=VARCHAR},
+		#{diseaseTreatmentCosts,jdbcType=VARCHAR},
+		#{diseaseTreatmentCycle,jdbcType=VARCHAR},
+		#{diseaseTreatmentMethod,jdbcType=VARCHAR},
+		#{diseaseVisitDepartment,jdbcType=VARCHAR},
+		#{diseaseComplicationIntro,jdbcType=LONGVARCHAR},
+		#{diseaseExaminationGuidanceIntro,jdbcType=LONGVARCHAR},
+		#{diseaseIntro,jdbcType=LONGVARCHAR},
+		#{diseaseMedicalTreatmentGuideQuestion,jdbcType=LONGVARCHAR},
+		#{diseaseSymptomEarly,jdbcType=LONGVARCHAR},
+		#{diseaseSymptomIntro,jdbcType=LONGVARCHAR},
+		#{diseaseSymptomLate,jdbcType=LONGVARCHAR},
+		#{diseaseTreatmentMethodIntro,jdbcType=LONGVARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.changemax.mas.po.DiseaseWithBLOBs">
+		insert into disease
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="diseaseId != null">
+				disease_id,
+			</if>
+			<if test="diseaseAlias != null">
+				disease_alias,
+			</if>
+			<if test="diseaseComplication != null">
+				disease_complication,
+			</if>
+			<if test="diseaseContagious != null">
+				disease_contagious,
+			</if>
+			<if test="diseaseCureRate != null">
+				disease_cure_rate,
+			</if>
+			<if test="diseaseImageUrl != null">
+				disease_image_url,
+			</if>
+			<if test="diseaseIncidenceSite != null">
+				disease_incidence_site,
+			</if>
+			<if test="diseaseMedicalInsurance != null">
+				disease_medical_insurance,
+			</if>
+			<if test="diseaseMultiplePeople != null">
+				disease_multiple_people,
+			</if>
+			<if test="diseaseName != null">
+				disease_name,
+			</if>
+			<if test="diseaseSymptomRelated != null">
+				disease_symptom_related,
+			</if>
+			<if test="diseaseTrans != null">
+				disease_trans,
+			</if>
+			<if test="diseaseTreatmentCosts != null">
+				disease_treatment_costs,
+			</if>
+			<if test="diseaseTreatmentCycle != null">
+				disease_treatment_cycle,
+			</if>
+			<if test="diseaseTreatmentMethod != null">
+				disease_treatment_method,
+			</if>
+			<if test="diseaseVisitDepartment != null">
+				disease_visit_department,
+			</if>
+			<if test="diseaseComplicationIntro != null">
+				disease_complication_intro,
+			</if>
+			<if test="diseaseExaminationGuidanceIntro != null">
+				disease_examination_guidance_intro,
+			</if>
+			<if test="diseaseIntro != null">
+				disease_intro,
+			</if>
+			<if test="diseaseMedicalTreatmentGuideQuestion != null">
+				disease_medical_treatment_guide_question,
+			</if>
+			<if test="diseaseSymptomEarly != null">
+				disease_symptom_early,
+			</if>
+			<if test="diseaseSymptomIntro != null">
+				disease_symptom_intro,
+			</if>
+			<if test="diseaseSymptomLate != null">
+				disease_symptom_late,
+			</if>
+			<if test="diseaseTreatmentMethodIntro != null">
+				disease_treatment_method_intro,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="diseaseId != null">
+				#{diseaseId,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseAlias != null">
+				#{diseaseAlias,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseComplication != null">
+				#{diseaseComplication,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseContagious != null">
+				#{diseaseContagious,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseCureRate != null">
+				#{diseaseCureRate,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseImageUrl != null">
+				#{diseaseImageUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseIncidenceSite != null">
+				#{diseaseIncidenceSite,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseMedicalInsurance != null">
+				#{diseaseMedicalInsurance,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseMultiplePeople != null">
+				#{diseaseMultiplePeople,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseName != null">
+				#{diseaseName,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseSymptomRelated != null">
+				#{diseaseSymptomRelated,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseTrans != null">
+				#{diseaseTrans,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseTreatmentCosts != null">
+				#{diseaseTreatmentCosts,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseTreatmentCycle != null">
+				#{diseaseTreatmentCycle,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseTreatmentMethod != null">
+				#{diseaseTreatmentMethod,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseVisitDepartment != null">
+				#{diseaseVisitDepartment,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseComplicationIntro != null">
+				#{diseaseComplicationIntro,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="diseaseExaminationGuidanceIntro != null">
+				#{diseaseExaminationGuidanceIntro,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="diseaseIntro != null">
+				#{diseaseIntro,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="diseaseMedicalTreatmentGuideQuestion != null">
+				#{diseaseMedicalTreatmentGuideQuestion,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="diseaseSymptomEarly != null">
+				#{diseaseSymptomEarly,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="diseaseSymptomIntro != null">
+				#{diseaseSymptomIntro,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="diseaseSymptomLate != null">
+				#{diseaseSymptomLate,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="diseaseTreatmentMethodIntro != null">
+				#{diseaseTreatmentMethodIntro,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample"
+		parameterType="cn.changemax.mas.po.DiseaseExample"
+		resultType="java.lang.Integer">
+		select count(*) from disease
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update disease
+		<set>
+			<if test="record.diseaseId != null">
+				disease_id = #{record.diseaseId,jdbcType=VARCHAR},
+			</if>
+			<if test="record.diseaseAlias != null">
+				disease_alias = #{record.diseaseAlias,jdbcType=VARCHAR},
+			</if>
+			<if test="record.diseaseComplication != null">
+				disease_complication =
+				#{record.diseaseComplication,jdbcType=VARCHAR},
+			</if>
+			<if test="record.diseaseContagious != null">
+				disease_contagious = #{record.diseaseContagious,jdbcType=VARCHAR},
+			</if>
+			<if test="record.diseaseCureRate != null">
+				disease_cure_rate = #{record.diseaseCureRate,jdbcType=VARCHAR},
+			</if>
+			<if test="record.diseaseImageUrl != null">
+				disease_image_url = #{record.diseaseImageUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="record.diseaseIncidenceSite != null">
+				disease_incidence_site =
+				#{record.diseaseIncidenceSite,jdbcType=VARCHAR},
+			</if>
+			<if test="record.diseaseMedicalInsurance != null">
+				disease_medical_insurance =
+				#{record.diseaseMedicalInsurance,jdbcType=VARCHAR},
+			</if>
+			<if test="record.diseaseMultiplePeople != null">
+				disease_multiple_people =
+				#{record.diseaseMultiplePeople,jdbcType=VARCHAR},
+			</if>
+			<if test="record.diseaseName != null">
+				disease_name = #{record.diseaseName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.diseaseSymptomRelated != null">
+				disease_symptom_related =
+				#{record.diseaseSymptomRelated,jdbcType=VARCHAR},
+			</if>
+			<if test="record.diseaseTrans != null">
+				disease_trans = #{record.diseaseTrans,jdbcType=VARCHAR},
+			</if>
+			<if test="record.diseaseTreatmentCosts != null">
+				disease_treatment_costs =
+				#{record.diseaseTreatmentCosts,jdbcType=VARCHAR},
+			</if>
+			<if test="record.diseaseTreatmentCycle != null">
+				disease_treatment_cycle =
+				#{record.diseaseTreatmentCycle,jdbcType=VARCHAR},
+			</if>
+			<if test="record.diseaseTreatmentMethod != null">
+				disease_treatment_method =
+				#{record.diseaseTreatmentMethod,jdbcType=VARCHAR},
+			</if>
+			<if test="record.diseaseVisitDepartment != null">
+				disease_visit_department =
+				#{record.diseaseVisitDepartment,jdbcType=VARCHAR},
+			</if>
+			<if test="record.diseaseComplicationIntro != null">
+				disease_complication_intro =
+				#{record.diseaseComplicationIntro,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.diseaseExaminationGuidanceIntro != null">
+				disease_examination_guidance_intro =
+				#{record.diseaseExaminationGuidanceIntro,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.diseaseIntro != null">
+				disease_intro = #{record.diseaseIntro,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.diseaseMedicalTreatmentGuideQuestion != null">
+				disease_medical_treatment_guide_question =
+				#{record.diseaseMedicalTreatmentGuideQuestion,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.diseaseSymptomEarly != null">
+				disease_symptom_early =
+				#{record.diseaseSymptomEarly,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.diseaseSymptomIntro != null">
+				disease_symptom_intro =
+				#{record.diseaseSymptomIntro,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.diseaseSymptomLate != null">
+				disease_symptom_late = #{record.diseaseSymptomLate,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.diseaseTreatmentMethodIntro != null">
+				disease_treatment_method_intro =
+				#{record.diseaseTreatmentMethodIntro,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExampleWithBLOBs" parameterType="map">
+		update disease
+		set disease_id = #{record.diseaseId,jdbcType=VARCHAR},
+		disease_alias = #{record.diseaseAlias,jdbcType=VARCHAR},
+		disease_complication = #{record.diseaseComplication,jdbcType=VARCHAR},
+		disease_contagious = #{record.diseaseContagious,jdbcType=VARCHAR},
+		disease_cure_rate = #{record.diseaseCureRate,jdbcType=VARCHAR},
+		disease_image_url = #{record.diseaseImageUrl,jdbcType=VARCHAR},
+		disease_incidence_site = #{record.diseaseIncidenceSite,jdbcType=VARCHAR},
+		disease_medical_insurance =
+		#{record.diseaseMedicalInsurance,jdbcType=VARCHAR},
+		disease_multiple_people =
+		#{record.diseaseMultiplePeople,jdbcType=VARCHAR},
+		disease_name = #{record.diseaseName,jdbcType=VARCHAR},
+		disease_symptom_related = #{record.diseaseSymptomRelated,jdbcType=VARCHAR},
+		disease_trans = #{record.diseaseTrans,jdbcType=VARCHAR},
+		disease_treatment_costs = #{record.diseaseTreatmentCosts,jdbcType=VARCHAR},
+		disease_treatment_cycle =
+		#{record.diseaseTreatmentCycle,jdbcType=VARCHAR},
+		disease_treatment_method =
+		#{record.diseaseTreatmentMethod,jdbcType=VARCHAR},
+		disease_visit_department =
+		#{record.diseaseVisitDepartment,jdbcType=VARCHAR},
+		disease_complication_intro =
+		#{record.diseaseComplicationIntro,jdbcType=LONGVARCHAR},
+		disease_examination_guidance_intro =
+		#{record.diseaseExaminationGuidanceIntro,jdbcType=LONGVARCHAR},
+		disease_intro = #{record.diseaseIntro,jdbcType=LONGVARCHAR},
+		disease_medical_treatment_guide_question =
+		#{record.diseaseMedicalTreatmentGuideQuestion,jdbcType=LONGVARCHAR},
+		disease_symptom_early =
+		#{record.diseaseSymptomEarly,jdbcType=LONGVARCHAR},
+		disease_symptom_intro =
+		#{record.diseaseSymptomIntro,jdbcType=LONGVARCHAR},
+		disease_symptom_late =
+		#{record.diseaseSymptomLate,jdbcType=LONGVARCHAR},
+		disease_treatment_method_intro =
+		#{record.diseaseTreatmentMethodIntro,jdbcType=LONGVARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update disease
+		set disease_id = #{record.diseaseId,jdbcType=VARCHAR},
+		disease_alias = #{record.diseaseAlias,jdbcType=VARCHAR},
+		disease_complication = #{record.diseaseComplication,jdbcType=VARCHAR},
+		disease_contagious = #{record.diseaseContagious,jdbcType=VARCHAR},
+		disease_cure_rate = #{record.diseaseCureRate,jdbcType=VARCHAR},
+		disease_image_url = #{record.diseaseImageUrl,jdbcType=VARCHAR},
+		disease_incidence_site = #{record.diseaseIncidenceSite,jdbcType=VARCHAR},
+		disease_medical_insurance =
+		#{record.diseaseMedicalInsurance,jdbcType=VARCHAR},
+		disease_multiple_people =
+		#{record.diseaseMultiplePeople,jdbcType=VARCHAR},
+		disease_name = #{record.diseaseName,jdbcType=VARCHAR},
+		disease_symptom_related = #{record.diseaseSymptomRelated,jdbcType=VARCHAR},
+		disease_trans = #{record.diseaseTrans,jdbcType=VARCHAR},
+		disease_treatment_costs = #{record.diseaseTreatmentCosts,jdbcType=VARCHAR},
+		disease_treatment_cycle =
+		#{record.diseaseTreatmentCycle,jdbcType=VARCHAR},
+		disease_treatment_method =
+		#{record.diseaseTreatmentMethod,jdbcType=VARCHAR},
+		disease_visit_department =
+		#{record.diseaseVisitDepartment,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.changemax.mas.po.DiseaseWithBLOBs">
+		update disease
+		<set>
+			<if test="diseaseAlias != null">
+				disease_alias = #{diseaseAlias,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseComplication != null">
+				disease_complication = #{diseaseComplication,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseContagious != null">
+				disease_contagious = #{diseaseContagious,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseCureRate != null">
+				disease_cure_rate = #{diseaseCureRate,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseImageUrl != null">
+				disease_image_url = #{diseaseImageUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseIncidenceSite != null">
+				disease_incidence_site = #{diseaseIncidenceSite,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseMedicalInsurance != null">
+				disease_medical_insurance =
+				#{diseaseMedicalInsurance,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseMultiplePeople != null">
+				disease_multiple_people = #{diseaseMultiplePeople,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseName != null">
+				disease_name = #{diseaseName,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseSymptomRelated != null">
+				disease_symptom_related = #{diseaseSymptomRelated,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseTrans != null">
+				disease_trans = #{diseaseTrans,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseTreatmentCosts != null">
+				disease_treatment_costs = #{diseaseTreatmentCosts,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseTreatmentCycle != null">
+				disease_treatment_cycle = #{diseaseTreatmentCycle,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseTreatmentMethod != null">
+				disease_treatment_method =
+				#{diseaseTreatmentMethod,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseVisitDepartment != null">
+				disease_visit_department =
+				#{diseaseVisitDepartment,jdbcType=VARCHAR},
+			</if>
+			<if test="diseaseComplicationIntro != null">
+				disease_complication_intro =
+				#{diseaseComplicationIntro,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="diseaseExaminationGuidanceIntro != null">
+				disease_examination_guidance_intro =
+				#{diseaseExaminationGuidanceIntro,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="diseaseIntro != null">
+				disease_intro = #{diseaseIntro,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="diseaseMedicalTreatmentGuideQuestion != null">
+				disease_medical_treatment_guide_question =
+				#{diseaseMedicalTreatmentGuideQuestion,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="diseaseSymptomEarly != null">
+				disease_symptom_early = #{diseaseSymptomEarly,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="diseaseSymptomIntro != null">
+				disease_symptom_intro = #{diseaseSymptomIntro,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="diseaseSymptomLate != null">
+				disease_symptom_late = #{diseaseSymptomLate,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="diseaseTreatmentMethodIntro != null">
+				disease_treatment_method_intro =
+				#{diseaseTreatmentMethodIntro,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where disease_id = #{diseaseId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs"
+		parameterType="cn.changemax.mas.po.DiseaseWithBLOBs">
+		update disease
+		set disease_alias = #{diseaseAlias,jdbcType=VARCHAR},
+		disease_complication = #{diseaseComplication,jdbcType=VARCHAR},
+		disease_contagious = #{diseaseContagious,jdbcType=VARCHAR},
+		disease_cure_rate = #{diseaseCureRate,jdbcType=VARCHAR},
+		disease_image_url = #{diseaseImageUrl,jdbcType=VARCHAR},
+		disease_incidence_site = #{diseaseIncidenceSite,jdbcType=VARCHAR},
+		disease_medical_insurance =
+		#{diseaseMedicalInsurance,jdbcType=VARCHAR},
+		disease_multiple_people = #{diseaseMultiplePeople,jdbcType=VARCHAR},
+		disease_name = #{diseaseName,jdbcType=VARCHAR},
+		disease_symptom_related = #{diseaseSymptomRelated,jdbcType=VARCHAR},
+		disease_trans = #{diseaseTrans,jdbcType=VARCHAR},
+		disease_treatment_costs = #{diseaseTreatmentCosts,jdbcType=VARCHAR},
+		disease_treatment_cycle = #{diseaseTreatmentCycle,jdbcType=VARCHAR},
+		disease_treatment_method = #{diseaseTreatmentMethod,jdbcType=VARCHAR},
+		disease_visit_department = #{diseaseVisitDepartment,jdbcType=VARCHAR},
+		disease_complication_intro =
+		#{diseaseComplicationIntro,jdbcType=LONGVARCHAR},
+		disease_examination_guidance_intro =
+		#{diseaseExaminationGuidanceIntro,jdbcType=LONGVARCHAR},
+		disease_intro = #{diseaseIntro,jdbcType=LONGVARCHAR},
+		disease_medical_treatment_guide_question =
+		#{diseaseMedicalTreatmentGuideQuestion,jdbcType=LONGVARCHAR},
+		disease_symptom_early = #{diseaseSymptomEarly,jdbcType=LONGVARCHAR},
+		disease_symptom_intro = #{diseaseSymptomIntro,jdbcType=LONGVARCHAR},
+		disease_symptom_late = #{diseaseSymptomLate,jdbcType=LONGVARCHAR},
+		disease_treatment_method_intro =
+		#{diseaseTreatmentMethodIntro,jdbcType=LONGVARCHAR}
+		where disease_id = #{diseaseId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.changemax.mas.po.Disease">
+		update disease
+		set disease_alias = #{diseaseAlias,jdbcType=VARCHAR},
+		disease_complication = #{diseaseComplication,jdbcType=VARCHAR},
+		disease_contagious = #{diseaseContagious,jdbcType=VARCHAR},
+		disease_cure_rate = #{diseaseCureRate,jdbcType=VARCHAR},
+		disease_image_url = #{diseaseImageUrl,jdbcType=VARCHAR},
+		disease_incidence_site = #{diseaseIncidenceSite,jdbcType=VARCHAR},
+		disease_medical_insurance =
+		#{diseaseMedicalInsurance,jdbcType=VARCHAR},
+		disease_multiple_people = #{diseaseMultiplePeople,jdbcType=VARCHAR},
+		disease_name = #{diseaseName,jdbcType=VARCHAR},
+		disease_symptom_related = #{diseaseSymptomRelated,jdbcType=VARCHAR},
+		disease_trans = #{diseaseTrans,jdbcType=VARCHAR},
+		disease_treatment_costs = #{diseaseTreatmentCosts,jdbcType=VARCHAR},
+		disease_treatment_cycle = #{diseaseTreatmentCycle,jdbcType=VARCHAR},
+		disease_treatment_method = #{diseaseTreatmentMethod,jdbcType=VARCHAR},
+		disease_visit_department = #{diseaseVisitDepartment,jdbcType=VARCHAR}
+		where disease_id = #{diseaseId,jdbcType=VARCHAR}
+	</update>
+</mapper>

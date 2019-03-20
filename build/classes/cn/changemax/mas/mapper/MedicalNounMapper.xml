@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.changemax.mas.mapper.MedicalNounMapper" >
+  <resultMap id="BaseResultMap" type="cn.changemax.mas.po.MedicalNounKey" >
+    <id column="noun_id" property="nounId" jdbcType="INTEGER" />
+    <id column="noun_name" property="nounName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    noun_id, noun_name
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.changemax.mas.po.MedicalNounExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from medical_noun
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    
+    <if test="startRow != null and pageSize != null and pageSize != 0"> limit #{startRow},#{pageSize}</if>
+    
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="cn.changemax.mas.po.MedicalNounKey" >
+    delete from medical_noun
+    where noun_id = #{nounId,jdbcType=INTEGER}
+      and noun_name = #{nounName,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.changemax.mas.po.MedicalNounExample" >
+    delete from medical_noun
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.changemax.mas.po.MedicalNounKey" >
+    insert into medical_noun (noun_id, noun_name)
+    values (#{nounId,jdbcType=INTEGER}, #{nounName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.changemax.mas.po.MedicalNounKey" >
+    insert into medical_noun
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="nounId != null" >
+        noun_id,
+      </if>
+      <if test="nounName != null" >
+        noun_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="nounId != null" >
+        #{nounId,jdbcType=INTEGER},
+      </if>
+      <if test="nounName != null" >
+        #{nounName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.changemax.mas.po.MedicalNounExample" resultType="java.lang.Integer" >
+    select count(*) from medical_noun
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update medical_noun
+    <set >
+      <if test="record.nounId != null" >
+        noun_id = #{record.nounId,jdbcType=INTEGER},
+      </if>
+      <if test="record.nounName != null" >
+        noun_name = #{record.nounName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update medical_noun
+    set noun_id = #{record.nounId,jdbcType=INTEGER},
+      noun_name = #{record.nounName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

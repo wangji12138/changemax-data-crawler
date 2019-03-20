@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.changemax.mas.mapper.ChangeMaxMapper" >
+  <resultMap id="BaseResultMap" type="cn.changemax.mas.po.ChangeMax" >
+    <id column="change_max_id" property="changeMaxId" jdbcType="INTEGER" />
+    <result column="change_max_name" property="changeMaxName" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    change_max_id, change_max_name, user_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.changemax.mas.po.ChangeMaxExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from change_max
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    
+    <if test="startRow != null and pageSize != null and pageSize != 0"> limit #{startRow},#{pageSize}</if>
+    
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from change_max
+    where change_max_id = #{changeMaxId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from change_max
+    where change_max_id = #{changeMaxId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.changemax.mas.po.ChangeMaxExample" >
+    delete from change_max
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.changemax.mas.po.ChangeMax" >
+    insert into change_max (change_max_id, change_max_name, user_id
+      )
+    values (#{changeMaxId,jdbcType=INTEGER}, #{changeMaxName,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.changemax.mas.po.ChangeMax" >
+    insert into change_max
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="changeMaxId != null" >
+        change_max_id,
+      </if>
+      <if test="changeMaxName != null" >
+        change_max_name,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="changeMaxId != null" >
+        #{changeMaxId,jdbcType=INTEGER},
+      </if>
+      <if test="changeMaxName != null" >
+        #{changeMaxName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.changemax.mas.po.ChangeMaxExample" resultType="java.lang.Integer" >
+    select count(*) from change_max
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update change_max
+    <set >
+      <if test="record.changeMaxId != null" >
+        change_max_id = #{record.changeMaxId,jdbcType=INTEGER},
+      </if>
+      <if test="record.changeMaxName != null" >
+        change_max_name = #{record.changeMaxName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update change_max
+    set change_max_id = #{record.changeMaxId,jdbcType=INTEGER},
+      change_max_name = #{record.changeMaxName,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.changemax.mas.po.ChangeMax" >
+    update change_max
+    <set >
+      <if test="changeMaxName != null" >
+        change_max_name = #{changeMaxName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where change_max_id = #{changeMaxId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.changemax.mas.po.ChangeMax" >
+    update change_max
+    set change_max_name = #{changeMaxName,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR}
+    where change_max_id = #{changeMaxId,jdbcType=INTEGER}
+  </update>
+</mapper>

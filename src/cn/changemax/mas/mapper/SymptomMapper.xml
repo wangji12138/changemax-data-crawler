@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.changemax.mas.mapper.SymptomMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.changemax.mas.po.Symptom">
+		<id column="symptom_id" property="symptomId" jdbcType="VARCHAR" />
+		<result column="suggested_treatment_department"
+			property="suggestedTreatmentDepartment" jdbcType="VARCHAR" />
+		<result column="symptom_image_url" property="symptomImageUrl"
+			jdbcType="VARCHAR" />
+		<result column="symptom_name" property="symptomName"
+			jdbcType="VARCHAR" />
+		<result column="symptom_trans" property="symptomTrans"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs"
+		type="cn.changemax.mas.po.SymptomWithBLOBs" extends="BaseResultMap">
+		<result column="symptom_cause" property="symptomCause"
+			jdbcType="LONGVARCHAR" />
+		<result column="symptom_cause_disease"
+			property="symptomCauseDisease" jdbcType="LONGVARCHAR" />
+		<result column="symptom_intro" property="symptomIntro"
+			jdbcType="LONGVARCHAR" />
+		<result column="symptom_medical_treatment_guide"
+			property="symptomMedicalTreatmentGuide" jdbcType="LONGVARCHAR" />
+		<result column="symptom_similar_symptoms"
+			property="symptomSimilarSymptoms" jdbcType="LONGVARCHAR" />
+		<result column="symptomatic_details_content"
+			property="symptomaticDetailsContent" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		symptom_id, suggested_treatment_department, symptom_image_url, symptom_name,
+		symptom_trans
+	</sql>
+	<sql id="Blob_Column_List">
+		symptom_cause, symptom_cause_disease, symptom_intro,
+		symptom_medical_treatment_guide,
+		symptom_similar_symptoms, symptomatic_details_content
+	</sql>
+	<select id="selectByExampleWithBLOBs"
+		resultMap="ResultMapWithBLOBs"
+		parameterType="cn.changemax.mas.po.SymptomExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from symptom
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+
+		<if test="startRow != null and pageSize != null and pageSize != 0"> limit #{startRow},#{pageSize}</if>
+
+	</select>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="cn.changemax.mas.po.SymptomExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from symptom
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+
+		<if test="startRow != null and pageSize != null and pageSize != 0"> limit #{startRow},#{pageSize}</if>
+
+	</select>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from symptom
+		where symptom_id = #{symptomId,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from symptom
+		where symptom_id = #{symptomId,jdbcType=VARCHAR}
+	</delete>
+	<delete id="deleteByExample"
+		parameterType="cn.changemax.mas.po.SymptomExample">
+		delete from symptom
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert"
+		parameterType="cn.changemax.mas.po.SymptomWithBLOBs">
+		insert into symptom (symptom_id, suggested_treatment_department,
+		symptom_image_url, symptom_name, symptom_trans,
+		symptom_cause, symptom_cause_disease,
+		symptom_intro, symptom_medical_treatment_guide,
+		symptom_similar_symptoms, symptomatic_details_content
+		)
+		values (#{symptomId,jdbcType=VARCHAR},
+		#{suggestedTreatmentDepartment,jdbcType=VARCHAR},
+		#{symptomImageUrl,jdbcType=VARCHAR}, #{symptomName,jdbcType=VARCHAR},
+		#{symptomTrans,jdbcType=VARCHAR},
+		#{symptomCause,jdbcType=LONGVARCHAR},
+		#{symptomCauseDisease,jdbcType=LONGVARCHAR},
+		#{symptomIntro,jdbcType=LONGVARCHAR},
+		#{symptomMedicalTreatmentGuide,jdbcType=LONGVARCHAR},
+		#{symptomSimilarSymptoms,jdbcType=LONGVARCHAR},
+		#{symptomaticDetailsContent,jdbcType=LONGVARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.changemax.mas.po.SymptomWithBLOBs">
+		insert into symptom
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="symptomId != null">
+				symptom_id,
+			</if>
+			<if test="suggestedTreatmentDepartment != null">
+				suggested_treatment_department,
+			</if>
+			<if test="symptomImageUrl != null">
+				symptom_image_url,
+			</if>
+			<if test="symptomName != null">
+				symptom_name,
+			</if>
+			<if test="symptomTrans != null">
+				symptom_trans,
+			</if>
+			<if test="symptomCause != null">
+				symptom_cause,
+			</if>
+			<if test="symptomCauseDisease != null">
+				symptom_cause_disease,
+			</if>
+			<if test="symptomIntro != null">
+				symptom_intro,
+			</if>
+			<if test="symptomMedicalTreatmentGuide != null">
+				symptom_medical_treatment_guide,
+			</if>
+			<if test="symptomSimilarSymptoms != null">
+				symptom_similar_symptoms,
+			</if>
+			<if test="symptomaticDetailsContent != null">
+				symptomatic_details_content,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="symptomId != null">
+				#{symptomId,jdbcType=VARCHAR},
+			</if>
+			<if test="suggestedTreatmentDepartment != null">
+				#{suggestedTreatmentDepartment,jdbcType=VARCHAR},
+			</if>
+			<if test="symptomImageUrl != null">
+				#{symptomImageUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="symptomName != null">
+				#{symptomName,jdbcType=VARCHAR},
+			</if>
+			<if test="symptomTrans != null">
+				#{symptomTrans,jdbcType=VARCHAR},
+			</if>
+			<if test="symptomCause != null">
+				#{symptomCause,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="symptomCauseDisease != null">
+				#{symptomCauseDisease,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="symptomIntro != null">
+				#{symptomIntro,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="symptomMedicalTreatmentGuide != null">
+				#{symptomMedicalTreatmentGuide,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="symptomSimilarSymptoms != null">
+				#{symptomSimilarSymptoms,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="symptomaticDetailsContent != null">
+				#{symptomaticDetailsContent,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample"
+		parameterType="cn.changemax.mas.po.SymptomExample"
+		resultType="java.lang.Integer">
+		select count(*) from symptom
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update symptom
+		<set>
+			<if test="record.symptomId != null">
+				symptom_id = #{record.symptomId,jdbcType=VARCHAR},
+			</if>
+			<if test="record.suggestedTreatmentDepartment != null">
+				suggested_treatment_department =
+				#{record.suggestedTreatmentDepartment,jdbcType=VARCHAR},
+			</if>
+			<if test="record.symptomImageUrl != null">
+				symptom_image_url = #{record.symptomImageUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="record.symptomName != null">
+				symptom_name = #{record.symptomName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.symptomTrans != null">
+				symptom_trans = #{record.symptomTrans,jdbcType=VARCHAR},
+			</if>
+			<if test="record.symptomCause != null">
+				symptom_cause = #{record.symptomCause,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.symptomCauseDisease != null">
+				symptom_cause_disease =
+				#{record.symptomCauseDisease,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.symptomIntro != null">
+				symptom_intro = #{record.symptomIntro,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.symptomMedicalTreatmentGuide != null">
+				symptom_medical_treatment_guide =
+				#{record.symptomMedicalTreatmentGuide,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.symptomSimilarSymptoms != null">
+				symptom_similar_symptoms =
+				#{record.symptomSimilarSymptoms,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.symptomaticDetailsContent != null">
+				symptomatic_details_content =
+				#{record.symptomaticDetailsContent,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExampleWithBLOBs" parameterType="map">
+		update symptom
+		set symptom_id = #{record.symptomId,jdbcType=VARCHAR},
+		suggested_treatment_department =
+		#{record.suggestedTreatmentDepartment,jdbcType=VARCHAR},
+		symptom_image_url = #{record.symptomImageUrl,jdbcType=VARCHAR},
+		symptom_name = #{record.symptomName,jdbcType=VARCHAR},
+		symptom_trans = #{record.symptomTrans,jdbcType=VARCHAR},
+		symptom_cause = #{record.symptomCause,jdbcType=LONGVARCHAR},
+		symptom_cause_disease = #{record.symptomCauseDisease,jdbcType=LONGVARCHAR},
+		symptom_intro = #{record.symptomIntro,jdbcType=LONGVARCHAR},
+		symptom_medical_treatment_guide =
+		#{record.symptomMedicalTreatmentGuide,jdbcType=LONGVARCHAR},
+		symptom_similar_symptoms =
+		#{record.symptomSimilarSymptoms,jdbcType=LONGVARCHAR},
+		symptomatic_details_content =
+		#{record.symptomaticDetailsContent,jdbcType=LONGVARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update symptom
+		set symptom_id = #{record.symptomId,jdbcType=VARCHAR},
+		suggested_treatment_department =
+		#{record.suggestedTreatmentDepartment,jdbcType=VARCHAR},
+		symptom_image_url = #{record.symptomImageUrl,jdbcType=VARCHAR},
+		symptom_name = #{record.symptomName,jdbcType=VARCHAR},
+		symptom_trans = #{record.symptomTrans,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.changemax.mas.po.SymptomWithBLOBs">
+		update symptom
+		<set>
+			<if test="suggestedTreatmentDepartment != null">
+				suggested_treatment_department =
+				#{suggestedTreatmentDepartment,jdbcType=VARCHAR},
+			</if>
+			<if test="symptomImageUrl != null">
+				symptom_image_url = #{symptomImageUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="symptomName != null">
+				symptom_name = #{symptomName,jdbcType=VARCHAR},
+			</if>
+			<if test="symptomTrans != null">
+				symptom_trans = #{symptomTrans,jdbcType=VARCHAR},
+			</if>
+			<if test="symptomCause != null">
+				symptom_cause = #{symptomCause,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="symptomCauseDisease != null">
+				symptom_cause_disease = #{symptomCauseDisease,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="symptomIntro != null">
+				symptom_intro = #{symptomIntro,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="symptomMedicalTreatmentGuide != null">
+				symptom_medical_treatment_guide =
+				#{symptomMedicalTreatmentGuide,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="symptomSimilarSymptoms != null">
+				symptom_similar_symptoms =
+				#{symptomSimilarSymptoms,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="symptomaticDetailsContent != null">
+				symptomatic_details_content =
+				#{symptomaticDetailsContent,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where symptom_id = #{symptomId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs"
+		parameterType="cn.changemax.mas.po.SymptomWithBLOBs">
+		update symptom
+		set suggested_treatment_department =
+		#{suggestedTreatmentDepartment,jdbcType=VARCHAR},
+		symptom_image_url = #{symptomImageUrl,jdbcType=VARCHAR},
+		symptom_name = #{symptomName,jdbcType=VARCHAR},
+		symptom_trans = #{symptomTrans,jdbcType=VARCHAR},
+		symptom_cause = #{symptomCause,jdbcType=LONGVARCHAR},
+		symptom_cause_disease = #{symptomCauseDisease,jdbcType=LONGVARCHAR},
+		symptom_intro = #{symptomIntro,jdbcType=LONGVARCHAR},
+		symptom_medical_treatment_guide =
+		#{symptomMedicalTreatmentGuide,jdbcType=LONGVARCHAR},
+		symptom_similar_symptoms =
+		#{symptomSimilarSymptoms,jdbcType=LONGVARCHAR},
+		symptomatic_details_content =
+		#{symptomaticDetailsContent,jdbcType=LONGVARCHAR}
+		where symptom_id = #{symptomId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.changemax.mas.po.Symptom">
+		update symptom
+		set suggested_treatment_department =
+		#{suggestedTreatmentDepartment,jdbcType=VARCHAR},
+		symptom_image_url = #{symptomImageUrl,jdbcType=VARCHAR},
+		symptom_name = #{symptomName,jdbcType=VARCHAR},
+		symptom_trans = #{symptomTrans,jdbcType=VARCHAR}
+		where symptom_id = #{symptomId,jdbcType=VARCHAR}
+	</update>
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 全局的setting配置，根据需要添加 -->
+
+	<!-- 别名定义 -->
+	<typeAliases>
+		<package name="cn.changemax.mas.po" />
+	</typeAliases>
+
+
+	<!-- 加载 映射文件 由于使用spring和mybatis的整合包进行mapper扫描，这里不需要配置了 -->
+	<mappers>
+		<!-- <mapper resource="sqlmap/User.xml" /> -->
+		<!-- 批量加载mapper 指定mapper接口的包名，mybatis自动扫描包下边所有mapper接口进行加载 遵循一些规范： 需要将mapper接口类名和mapper.xml映射文件名称保持一致，且在一个目录 
+			中 上边规范的前提是：使用的是mapper代理方法 和spring整合后，使用mapper扫描器，这里不需要配置了 -->
+		<!-- <package name="cn.changemax.ssm.mapper" /> -->
+	</mappers>
+</configuration>

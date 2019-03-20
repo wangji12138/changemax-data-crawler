@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.changemax.mas.mapper.AnswerMapper" >
+  <resultMap id="BaseResultMap" type="cn.changemax.mas.po.Answer" >
+    <id column="answer_id" property="answerId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="question_id" property="questionId" jdbcType="VARCHAR" />
+    <result column="original_question" property="originalQuestion" jdbcType="VARCHAR" />
+    <result column="question_similarity" property="questionSimilarity" jdbcType="DOUBLE" />
+    <result column="answer_type" property="answerType" jdbcType="VARCHAR" />
+    <result column="related_url" property="relatedUrl" jdbcType="VARCHAR" />
+    <result column="generation_date" property="generationDate" jdbcType="TIMESTAMP" />
+    <result column="good_number" property="goodNumber" jdbcType="INTEGER" />
+    <result column="bad_number" property="badNumber" jdbcType="INTEGER" />
+    <result column="is_adoption" property="isAdoption" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="cn.changemax.mas.po.Answer" extends="BaseResultMap" >
+    <result column="answer_detail" property="answerDetail" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    answer_id, user_id, question_id, original_question, question_similarity, answer_type, 
+    related_url, generation_date, good_number, bad_number, is_adoption
+  </sql>
+  <sql id="Blob_Column_List" >
+    answer_detail
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="cn.changemax.mas.po.AnswerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from answer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.changemax.mas.po.AnswerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from answer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from answer
+    where answer_id = #{answerId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from answer
+    where answer_id = #{answerId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.changemax.mas.po.AnswerExample" >
+    delete from answer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.changemax.mas.po.Answer" >
+    insert into answer (answer_id, user_id, question_id, 
+      original_question, question_similarity, answer_type, 
+      related_url, generation_date, good_number, 
+      bad_number, is_adoption, answer_detail
+      )
+    values (#{answerId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{questionId,jdbcType=VARCHAR}, 
+      #{originalQuestion,jdbcType=VARCHAR}, #{questionSimilarity,jdbcType=DOUBLE}, #{answerType,jdbcType=VARCHAR}, 
+      #{relatedUrl,jdbcType=VARCHAR}, #{generationDate,jdbcType=TIMESTAMP}, #{goodNumber,jdbcType=INTEGER}, 
+      #{badNumber,jdbcType=INTEGER}, #{isAdoption,jdbcType=INTEGER}, #{answerDetail,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.changemax.mas.po.Answer" >
+    insert into answer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="answerId != null" >
+        answer_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="questionId != null" >
+        question_id,
+      </if>
+      <if test="originalQuestion != null" >
+        original_question,
+      </if>
+      <if test="questionSimilarity != null" >
+        question_similarity,
+      </if>
+      <if test="answerType != null" >
+        answer_type,
+      </if>
+      <if test="relatedUrl != null" >
+        related_url,
+      </if>
+      <if test="generationDate != null" >
+        generation_date,
+      </if>
+      <if test="goodNumber != null" >
+        good_number,
+      </if>
+      <if test="badNumber != null" >
+        bad_number,
+      </if>
+      <if test="isAdoption != null" >
+        is_adoption,
+      </if>
+      <if test="answerDetail != null" >
+        answer_detail,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="answerId != null" >
+        #{answerId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="questionId != null" >
+        #{questionId,jdbcType=VARCHAR},
+      </if>
+      <if test="originalQuestion != null" >
+        #{originalQuestion,jdbcType=VARCHAR},
+      </if>
+      <if test="questionSimilarity != null" >
+        #{questionSimilarity,jdbcType=DOUBLE},
+      </if>
+      <if test="answerType != null" >
+        #{answerType,jdbcType=VARCHAR},
+      </if>
+      <if test="relatedUrl != null" >
+        #{relatedUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="generationDate != null" >
+        #{generationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodNumber != null" >
+        #{goodNumber,jdbcType=INTEGER},
+      </if>
+      <if test="badNumber != null" >
+        #{badNumber,jdbcType=INTEGER},
+      </if>
+      <if test="isAdoption != null" >
+        #{isAdoption,jdbcType=INTEGER},
+      </if>
+      <if test="answerDetail != null" >
+        #{answerDetail,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.changemax.mas.po.AnswerExample" resultType="java.lang.Integer" >
+    select count(*) from answer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update answer
+    <set >
+      <if test="record.answerId != null" >
+        answer_id = #{record.answerId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.questionId != null" >
+        question_id = #{record.questionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.originalQuestion != null" >
+        original_question = #{record.originalQuestion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.questionSimilarity != null" >
+        question_similarity = #{record.questionSimilarity,jdbcType=DOUBLE},
+      </if>
+      <if test="record.answerType != null" >
+        answer_type = #{record.answerType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.relatedUrl != null" >
+        related_url = #{record.relatedUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.generationDate != null" >
+        generation_date = #{record.generationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.goodNumber != null" >
+        good_number = #{record.goodNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.badNumber != null" >
+        bad_number = #{record.badNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.isAdoption != null" >
+        is_adoption = #{record.isAdoption,jdbcType=INTEGER},
+      </if>
+      <if test="record.answerDetail != null" >
+        answer_detail = #{record.answerDetail,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update answer
+    set answer_id = #{record.answerId,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      question_id = #{record.questionId,jdbcType=VARCHAR},
+      original_question = #{record.originalQuestion,jdbcType=VARCHAR},
+      question_similarity = #{record.questionSimilarity,jdbcType=DOUBLE},
+      answer_type = #{record.answerType,jdbcType=VARCHAR},
+      related_url = #{record.relatedUrl,jdbcType=VARCHAR},
+      generation_date = #{record.generationDate,jdbcType=TIMESTAMP},
+      good_number = #{record.goodNumber,jdbcType=INTEGER},
+      bad_number = #{record.badNumber,jdbcType=INTEGER},
+      is_adoption = #{record.isAdoption,jdbcType=INTEGER},
+      answer_detail = #{record.answerDetail,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update answer
+    set answer_id = #{record.answerId,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      question_id = #{record.questionId,jdbcType=VARCHAR},
+      original_question = #{record.originalQuestion,jdbcType=VARCHAR},
+      question_similarity = #{record.questionSimilarity,jdbcType=DOUBLE},
+      answer_type = #{record.answerType,jdbcType=VARCHAR},
+      related_url = #{record.relatedUrl,jdbcType=VARCHAR},
+      generation_date = #{record.generationDate,jdbcType=TIMESTAMP},
+      good_number = #{record.goodNumber,jdbcType=INTEGER},
+      bad_number = #{record.badNumber,jdbcType=INTEGER},
+      is_adoption = #{record.isAdoption,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.changemax.mas.po.Answer" >
+    update answer
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="questionId != null" >
+        question_id = #{questionId,jdbcType=VARCHAR},
+      </if>
+      <if test="originalQuestion != null" >
+        original_question = #{originalQuestion,jdbcType=VARCHAR},
+      </if>
+      <if test="questionSimilarity != null" >
+        question_similarity = #{questionSimilarity,jdbcType=DOUBLE},
+      </if>
+      <if test="answerType != null" >
+        answer_type = #{answerType,jdbcType=VARCHAR},
+      </if>
+      <if test="relatedUrl != null" >
+        related_url = #{relatedUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="generationDate != null" >
+        generation_date = #{generationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodNumber != null" >
+        good_number = #{goodNumber,jdbcType=INTEGER},
+      </if>
+      <if test="badNumber != null" >
+        bad_number = #{badNumber,jdbcType=INTEGER},
+      </if>
+      <if test="isAdoption != null" >
+        is_adoption = #{isAdoption,jdbcType=INTEGER},
+      </if>
+      <if test="answerDetail != null" >
+        answer_detail = #{answerDetail,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where answer_id = #{answerId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.changemax.mas.po.Answer" >
+    update answer
+    set user_id = #{userId,jdbcType=VARCHAR},
+      question_id = #{questionId,jdbcType=VARCHAR},
+      original_question = #{originalQuestion,jdbcType=VARCHAR},
+      question_similarity = #{questionSimilarity,jdbcType=DOUBLE},
+      answer_type = #{answerType,jdbcType=VARCHAR},
+      related_url = #{relatedUrl,jdbcType=VARCHAR},
+      generation_date = #{generationDate,jdbcType=TIMESTAMP},
+      good_number = #{goodNumber,jdbcType=INTEGER},
+      bad_number = #{badNumber,jdbcType=INTEGER},
+      is_adoption = #{isAdoption,jdbcType=INTEGER},
+      answer_detail = #{answerDetail,jdbcType=LONGVARCHAR}
+    where answer_id = #{answerId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.changemax.mas.po.Answer" >
+    update answer
+    set user_id = #{userId,jdbcType=VARCHAR},
+      question_id = #{questionId,jdbcType=VARCHAR},
+      original_question = #{originalQuestion,jdbcType=VARCHAR},
+      question_similarity = #{questionSimilarity,jdbcType=DOUBLE},
+      answer_type = #{answerType,jdbcType=VARCHAR},
+      related_url = #{relatedUrl,jdbcType=VARCHAR},
+      generation_date = #{generationDate,jdbcType=TIMESTAMP},
+      good_number = #{goodNumber,jdbcType=INTEGER},
+      bad_number = #{badNumber,jdbcType=INTEGER},
+      is_adoption = #{isAdoption,jdbcType=INTEGER}
+    where answer_id = #{answerId,jdbcType=VARCHAR}
+  </update>
+</mapper>
